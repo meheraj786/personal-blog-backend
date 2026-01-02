@@ -18,7 +18,11 @@
   "homepage": "https://github.com/meheraj786/backend-starter-template-ts#readme",
   "description": "",
   "dependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
     "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "ioredis": "^5.8.1",
