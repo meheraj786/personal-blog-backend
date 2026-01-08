@@ -1,14 +1,14 @@
 import { Request, Response, Router } from "express";
 import {
-  createPost,
-  getAllPosts,
-  getPostBySlug,
-  getPostsByCategory,
-  updatePost,
-  deletePost,
+	createPost,
+	deletePost,
+	getAllPosts,
+	getPostBySlug,
+	getPostsByCategory,
+	updatePost,
 } from "../../controllers/post.controller";
-import upload from "../../middleware/multer.middleware";
 import { auth } from "../../middleware/auth.middleware";
+import upload from "../../middleware/multer.middleware";
 
 const postRoute: Router = Router();
 

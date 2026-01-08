@@ -16,64 +16,64 @@ const generateToken = (id: string): string => {
 // @route   POST /api/users/login
 // @access  Public
 export const login = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { email, password } = req.body;
+	try {
+		const { email, password } = req.body;
 
-    // Validate input
-    if (!email || !password) {
-      throw new ApiError(400, 'Please provide email and password');
-    }
+		// Validate input
+		if (!email || !password) {
+			throw new ApiError(400, "Please provide email and password");
+		}
 
-    // Check if user exists
-    const user = await User.findOne({ email }).select('+password');
+		// Check if user exists
+		const user = await User.findOne({ email }).select("+password");
 
-    if (!user) {
-      throw new ApiError(401, 'Invalid credentials');
-    }
+		if (!user) {
+			throw new ApiError(401, "Invalid credentials");
+		}
 
-    // Check password
-    const isPasswordValid = await user.comparePassword(password);
+		// Check password
+		const isPasswordValid = await user.comparePassword(password);
 
-    if (!isPasswordValid) {
-      throw new ApiError(401, 'Invalid credentials');
-    }
+		if (!isPasswordValid) {
+			throw new ApiError(401, "Invalid credentials");
+		}
 
-    // Generate token
-    const token = generateToken(user._id!.toString());
+		// Generate token
+		const token = generateToken(user._id!.toString());
 
-    // Set cookie options
-    const cookieOptions = {
-      httpOnly: true, // Prevents client-side JS from accessing the cookie
-      secure: process.env.NODE_ENV === 'production', // Only send over HTTPS in production
-      sameSite: 'strict' as const, // CSRF protection
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-    };
+		// Set cookie options
+		const cookieOptions = {
+			httpOnly: true, // Prevents client-side JS from accessing the cookie
+			secure: process.env.NODE_ENV === "production", // Only send over HTTPS in production
+			sameSite: "strict" as const, // CSRF protection
+			maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+		};
 
-    // Set token in cookie
-    res.cookie('token', token, cookieOptions);
+		// Set token in cookie
+		res.cookie("token", token, cookieOptions);
 
-    const responseData = {
-      user: {
-        id: user._id,
-        email: user.email,
-      },
-    };
+		const responseData = {
+			user: {
+				id: user._id,
+				email: user.email,
+			},
+		};
 
-    res.status(200).json(new ApiResponse(responseData, 'Login successful'));
-  } catch (error) {
-    if (error instanceof ApiError) {
-      res.status(error.statusCode).json({
-        success: false,
-        message: error.message,
-        errors: error.errors,
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        message: 'Server error',
-      });
-    }
-  }
+		res.status(200).json(new ApiResponse(responseData, "Login successful"));
+	} catch (error) {
+		if (error instanceof ApiError) {
+			res.status(error.statusCode).json({
+				success: false,
+				message: error.message,
+				errors: error.errors,
+			});
+		} else {
+			res.status(500).json({
+				success: false,
+				message: "Server error",
+			});
+		}
+	}
 };
 
 // @desc    Update user password
@@ -204,19 +204,19 @@ export const updateEmail = async (
 };
 
 export const logout = async (req: Request, res: Response): Promise<void> => {
-  try {
-    // Clear the cookie
-    res.clearCookie('token', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-    });
+	try {
+		// Clear the cookie
+		res.clearCookie("token", {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === "production",
+			sameSite: "strict",
+		});
 
-    res.status(200).json(new ApiResponse(null, 'Logout successful'));
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Server error',
-    });
-  }
+		res.status(200).json(new ApiResponse(null, "Logout successful"));
+	} catch (error) {
+		res.status(500).json({
+			success: false,
+			message: "Server error",
+		});
+	}
 };

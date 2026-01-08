@@ -1,9 +1,9 @@
 import express, { Request, Response, type Router } from "express";
+import { auth } from "../../middleware/auth.middleware";
 import postRoute from "./post.route";
 import profileRoute from "./profile.route";
 import siteRoute from "./site.route";
 import userRoute from "./user.route";
-import { auth } from "../../middleware/auth.middleware";
 
 const apiRoutes: Router = express.Router();
 

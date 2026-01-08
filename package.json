@@ -1,15 +1,16 @@
 {
 	"name": "PbBack",
 	"version": "1.0.0",
-	"main": "index.js",
+	"main": "dist/index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "nodemon index.ts",
+		"start": "node dist/index.js",
 		"build": "tsc",
+		"dev": "nodemon index.ts",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
-		"format": "biome format --write ./src",
-		"check": "biome check --write ./src",
+		"format": "biome format --write .",
+		"check": "biome check --write .",
 		"prepare": "husky"
 	},
 	"repository": {
