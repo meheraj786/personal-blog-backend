@@ -58,7 +58,7 @@ export const updateProfile = async (
 			facebook,
 			portfolio,
 		} = req.body;
-		const avatarFile = (req as any).file;
+		const avatar = (req as any).file;
 
 		const profile = await Profile.findOne();
 
@@ -66,12 +66,14 @@ export const updateProfile = async (
 			throw new ApiError(404, "Profile not found");
 		}
 
-		// Upload avatar to Cloudinary if provided
-		if (avatarFile) {
-			const cloudinaryResult = await uploadOnCloudinary(avatarFile.path);
+		// Handle avatar update: prioritize file upload, fallback to URL from body
+		if (avatar) {
+			const cloudinaryResult = await uploadOnCloudinary(avatar.path);
 			if (cloudinaryResult) {
 				profile.avatar = cloudinaryResult.secure_url;
 			}
+		} else if (avatar) {
+			profile.avatar = avatar;
 		}
 
 		// Update fields if provided
