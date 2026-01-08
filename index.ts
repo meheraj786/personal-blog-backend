@@ -15,10 +15,24 @@ console.log();
 (async () => {
   try {
     await dbConnect();
+    
     app.use(
       cors({
-        origin: "*",  
-        credentials: true, 
+        origin: (origin, callback) => {
+          const allowedOrigins = [
+            "https://personal-blog-cyan-five.vercel.app",  
+            "http://localhost:3000"  
+          ];
+          
+          if (!origin) return callback(null, true);
+          
+          if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+          } else {
+            return callback(new Error("Not allowed by CORS"));
+          }
+        },
+        credentials: true,  
       }),
     );
     
