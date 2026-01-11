@@ -21,7 +21,8 @@ console.log();
         origin: (origin, callback) => {
           const allowedOrigins = [
             "https://personal-blog-cyan-five.vercel.app",  
-            "http://localhost:3000"  
+            "http://localhost:3000",
+            "https://personal-blog-frontend-gray.vercel.app" 
           ];
           
           if (!origin) return callback(null, true);
