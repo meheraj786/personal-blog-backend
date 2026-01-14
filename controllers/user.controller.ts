@@ -45,7 +45,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 		const cookieOptions = {
 			httpOnly: true, // Prevents client-side JS from accessing the cookie
 			secure: process.env.NODE_ENV === "production", // Only send over HTTPS in production
-			sameSite: "strict" as const, // CSRF protection
+			sameSite: "none" as const, // Allow cross-site cookie for frontend on different domain
 			maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
 		};
 
@@ -209,7 +209,7 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
 		res.clearCookie("token", {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
-			sameSite: "strict",
+			sameSite: "none",
 		});
 
 		res.status(200).json(new ApiResponse(null, "Logout successful"));
