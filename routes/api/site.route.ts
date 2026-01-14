@@ -5,7 +5,7 @@ import upload from "../../middleware/multer.middleware";
 
 const siteRoute: Router = Router();
 
-siteRoute.get("/get", auth, getSite);
+siteRoute.get("/get", getSite);
 siteRoute.patch("/update", auth, upload.single("bannerImage"), updateSite);
 
 export default siteRoute;

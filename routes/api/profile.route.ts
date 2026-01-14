@@ -8,7 +8,7 @@ import upload from "../../middleware/multer.middleware";
 
 const profileRoute: Router = Router();
 
-profileRoute.get("/get", auth, getProfile);
+profileRoute.get("/get",  getProfile);
 profileRoute.patch("/update", auth, upload.single("avatar"), updateProfile);
 
 export default profileRoute;
