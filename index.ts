@@ -9,44 +9,46 @@ import { seedDatabase } from "./utils/seeder";
 
 const app: Application = express();
 const PORT = process.env.PORT || 5000;
+const ORIGIN = process.env.ORIGIN;
 
-console.log();
+console.log(ORIGIN);
 
 (async () => {
   try {
     await dbConnect();
-    
+
     app.use(
       cors({
         origin: (origin, callback) => {
           const allowedOrigins = [
-            "https://personal-blog-cyan-five.vercel.app",  
+            ORIGIN,
+            "https://personal-blog-cyan-five.vercel.app",
             "http://localhost:3000",
-            "https://personal-blog-frontend-gray.vercel.app" 
+            "https://personal-blog-frontend-gray.vercel.app",
           ];
-          
+
           if (!origin) return callback(null, true);
-          
+
           if (allowedOrigins.includes(origin)) {
             return callback(null, true);
           } else {
             return callback(new Error("Not allowed by CORS"));
           }
         },
-        credentials: true,  
-      }),
+        credentials: true,
+      })
     );
-    
+
     app.use(cookieParser());
     app.use(express.json());
     app.use(routers);
-    
+
     app.get("/", (req, res) => {
       res.send("Hello World!!");
     });
-    
+
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-    
+
     seedDatabase();
   } catch (error) {
     console.error("Something went wrong:", error);
